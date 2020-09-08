@@ -51,9 +51,9 @@
     var pickAnything = document.querySelector("#pick-anything");
     if (pickAnything) {
         pickAnything.onclick = function () {
-             var pickAny = new MozActivity({
-                 name: "pick"
-             });
+            var pickAny = new MozActivity({
+                name: "pick"
+            });
 
             pickAny.onsuccess = function () {
                 var img = document.createElement("img");
@@ -156,7 +156,7 @@
         imgToShare = document.querySelector("#image-to-share");
     if (shareImage && imgToShare) {
         shareImage.onclick = function () {
-            if(imgToShare.naturalWidth > 0) {
+            if (imgToShare.naturalWidth > 0) {
                 // Create dummy canvas
                 var blobCanvas = document.createElement("canvas");
                 blobCanvas.width = imgToShare.width;
@@ -203,7 +203,7 @@
             new MozActivity({
                 name: "new", // Possibly compose-mail in future versions
                 data: {
-                    type : "mail",
+                    type: "mail",
                     url: "mailto:example@example.org"
                 }
             });
@@ -232,10 +232,10 @@
                 name: "open",
                 data: {
                     type: [
-                      "video/webm",
-                      "video/mp4",
-                      "video/3gpp",
-                      "video/youtube"
+                        "video/webm",
+                        "video/mp4",
+                        "video/3gpp",
+                        "video/youtube"
                     ],
                     url: "http://v2v.cc/~j/theora_testsuite/320x240.ogg"
                 }
@@ -262,7 +262,7 @@
             if ("Notification" in window) {
                 if (Notification.permission !== "denied") {
                     Notification.requestPermission(function (permission) {
-                        if(!("permission" in Notification)) {
+                        if (!("permission" in Notification)) {
                             Notification.permission = permission;
                         }
                     });
@@ -270,7 +270,7 @@
 
                 if (Notification.permission === "granted") {
                     new Notification("See this", {
-                        body : "This is a notification"
+                        body: "This is a notification"
                     });
                 }
             }
@@ -366,10 +366,10 @@
                 geolocationDisplay.innerHTML = "<strong>Latitude:</strong> " + position.coords.latitude + ", <strong>Longitude:</strong> " + position.coords.longitude;
                 geolocationDisplay.style.display = "block";
             },
-            function () {
-                geolocationDisplay.innerHTML = "Failed to get your current location";
-                geolocationDisplay.style.display = "block";
-            });
+                function () {
+                    geolocationDisplay.innerHTML = "Failed to get your current location";
+                    geolocationDisplay.style.display = "block";
+                });
         };
     }
 
@@ -422,15 +422,15 @@
         deviceOrientationDisplay = document.querySelector("#device-orientation-display");
 
     if (deviceOrientation && deviceOrientationDisplay) {
-        deviceOrientation.onclick = function() {
+        deviceOrientation.onclick = function () {
             deviceOrientationDisplay.style.display = "block";
             window.ondeviceorientation = function (event) {
                 var orientedTo = (event.beta > 45 && event.beta < 135) ? "top" : (event.beta < -45 && event.beta > -135) ? "bottom" : (event.gamma > 45) ? "right" : (event.gamma < -45) ? "left" : "flat";
                 var orientation = "<strong>Absolute: </strong>" + event.absolute + "<br>" +
-                                    "<strong>Alpha: </strong>" + event.alpha + "<br>" +
-                                    "<strong>Beta: </strong>" + event.beta + "<br>" +
-                                    "<strong>Gamma: </strong>" + event.gamma + "<br>" +
-                                    "<strong>Device orientation: </strong>" + orientedTo;
+                    "<strong>Alpha: </strong>" + event.alpha + "<br>" +
+                    "<strong>Beta: </strong>" + event.beta + "<br>" +
+                    "<strong>Gamma: </strong>" + event.gamma + "<br>" +
+                    "<strong>Device orientation: </strong>" + orientedTo;
 
                 deviceOrientationDisplay.innerHTML = orientation;
             };
@@ -483,7 +483,7 @@
             cursor.onerror = function () {
                 console.log(this.error);
                 deviceStoragePicturesDisplay.innerHTML = "<h4>Result from deviceStorage - pictures</h4><p>deviceStorage failed</p><p>" +
-						(this.error.message || this.error.name || this.error.toString()) + "</p>";
+                    (this.error.message || this.error.name || this.error.toString()) + "</p>";
                 deviceStoragePicturesDisplay.style.display = "block";
             };
         };
@@ -535,7 +535,7 @@
     if (addAlarm) {
         addAlarm.onclick = function () {
             var alarm = navigator.mozAlarms.add(alarmDate, "honorTimezone", {
-                "optionalData" : "I am data"
+                "optionalData": "I am data"
             });
 
             alarm.onsuccess = function () {
@@ -551,9 +551,9 @@
                 alarmDisplay.innerHTML += "<h4>All alarms</h4>";
                 this.result.forEach(function (alarm) {
                     alarmDisplay.innerHTML += "<p><strong>Id:</strong> " + alarm.id +
-                    ", <strong>date:</strong> " + alarm.date +
-                    ", <strong>respectTimezone:</strong> " + alarm.respectTimezone +
-                    ", <strong>data:</strong> " + JSON.stringify(alarm.data) + "</p>";
+                        ", <strong>date:</strong> " + alarm.date +
+                        ", <strong>respectTimezone:</strong> " + alarm.respectTimezone +
+                        ", <strong>data:</strong> " + JSON.stringify(alarm.data) + "</p>";
                 });
             };
 
@@ -565,7 +565,7 @@
 
     var removeAllAlarms = document.querySelector("#remove-all-alarms"),
         removeAlarmsDisplay = document.querySelector("#remove-alarms-display");
-    if(removeAllAlarms) {
+    if (removeAllAlarms) {
         removeAllAlarms.onclick = function () {
             var getAddedAlarms = navigator.mozAlarms.getAll();
             getAddedAlarms.onsuccess = function () {

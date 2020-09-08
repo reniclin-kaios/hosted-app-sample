@@ -10,24 +10,22 @@ if (navigator.mozApps) {
             if (installationInstructions) {
                 installationInstructions.style.display = "none";
             }
-        }
-        else {
+        } else {
             var install = document.querySelector("#install"),
                 manifestURL = location.href.substring(0, location.href.lastIndexOf("/")) + "/manifest-hosted.webapp";
             install.className = "show-install";
             install.onclick = function () {
                 var installApp = navigator.mozApps.install(manifestURL);
-                installApp.onsuccess = function() {
+                installApp.onsuccess = function () {
                     install.style.display = "none";
                 };
-                installApp.onerror = function() {
+                installApp.onerror = function () {
                     alert("Install failed\n\n:" + installApp.error.name);
                 };
             };
         }
     };
-}
-else {
+} else {
     console.log("Open Web Apps not supported");
 }
 
