@@ -34,7 +34,7 @@
         if (hostedIdx >= hostedActivities.length) {
           hostedIdx = 0;
         }
-        hostedActivities[hostedIdx].setAttribute("nav-selected", "true");
+        hostedActivities[hostedIdx].setAttribute('nav-selected', 'true');
         hostedActivities[hostedIdx].focus();
       }
     }
@@ -62,7 +62,7 @@
         if (packageIdx >= packageActivities.length) {
           packageIdx = 0;
         }
-        packageActivities[packageIdx].setAttribute("nav-selected", "true");
+        packageActivities[packageIdx].setAttribute('nav-selected', 'true');
         packageActivities[packageIdx].focus();
       }
     }
@@ -79,9 +79,9 @@
     if (currentPage === 'hostedPage' && hostedActivities && typeof hostedActivities.length === 'number' && hostedActivities.length > 0) {
       let nextHostedIdx = getNextActivityIdx(hostedIdx, isArrowUp ? - 1 : + 1, hostedActivities.length)
       if (nextHostedIdx !== hostedIdx) {
-        hostedActivities[hostedIdx].setAttribute("nav-selected", "false");
+        hostedActivities[hostedIdx].setAttribute('nav-selected', 'false');
         hostedActivities[hostedIdx].blur();
-        hostedActivities[nextHostedIdx].setAttribute("nav-selected", "true");
+        hostedActivities[nextHostedIdx].setAttribute('nav-selected', 'true');
         hostedActivities[nextHostedIdx].focus();
 
         hostedIdx = nextHostedIdx;
@@ -90,12 +90,64 @@
     } else if (currentPage === 'packagePage' && packageActivities && typeof packageActivities.length === 'number' && packageActivities.length > 0) {
       let nextPackageIdx = getNextActivityIdx(packageIdx, isArrowUp ? - 1 : + 1, packageActivities.length)
       if (nextPackageIdx !== packageIdx) {
-        packageActivities[packageIdx].setAttribute("nav-selected", "false");
+        packageActivities[packageIdx].setAttribute('nav-selected', 'false');
         packageActivities[packageIdx].blur();
-        packageActivities[nextPackageIdx].setAttribute("nav-selected", "true");
+        packageActivities[nextPackageIdx].setAttribute('nav-selected', 'true');
         packageActivities[nextPackageIdx].focus();
 
         packageIdx = nextPackageIdx
+      }
+    }
+  }
+
+  //
+  // start a activity!
+  //
+  function startActivity() {
+    console.log('startActivity');
+
+    let manifestURL = currentPage === 'hostedPage' ? 'https://skfaizrahaman.github.io/FRRacing/manifest.webapp' : 'https://api.stage.kaiostech.com/apps/manifest/oRD8oeYmeYg4fLIwkQPH';
+    let appName = currentPage === 'hostedPage' ? 'fracing' : 'Facebook';
+    let activityName = (function () {
+      if (currentPage === 'hostedPage' && hostedActivities && typeof hostedActivities.length === 'number' && hostedActivities.length > 0) {
+        return hostedActivities[hostedIdx].textContent;
+      } else if (currentPage === 'packagePage' && packageActivities && typeof packageActivities.length === 'number' && packageActivities.length > 0) {
+        return packageActivities[packageIdx].textContent;
+      }
+      return null;
+    })();
+    console.log('manifestURL: ' + manifestURL);
+    console.log('appName: ' + appName);
+    console.log('activityName: ' + activityName);
+
+    if (activityName) {
+      let activity = (function () {
+        if (activityName.indexOf('deeplink') !== -1 ||
+          activityName.indexOf('page') !== -1) {
+          return new MozActivity({
+            name: activityName,
+            data: {
+              type: 'url',
+              url: manifestURL
+            }
+          });
+        } else {
+          return new MozActivity({
+            name: activityName,
+            data: {
+              type: 'name',
+              name: appName
+            }
+          });
+        }
+      })();
+
+      activity.onsuccess = function () {
+        console.log('Activity successfuly handled: ' + this.result);
+      }
+
+      activity.onerror = function () {
+        console.log('The activity encouter en error: ' + this.error);
       }
     }
   }
@@ -107,22 +159,25 @@
     switch (event.key) {
       case 'Enter':
         console.log('key: Enter');
+        if (window.MozActivity) {
+          startActivity();
+        }
         break;
-      case "ArrowDown":
+      case 'ArrowDown':
         console.log('key: ArrowDown');
         onArrowUporDown(false);
         break;
-      case "ArrowUp":
+      case 'ArrowUp':
         console.log('key: ArrowUp');
         onArrowUporDown(true);
         break;
-      case "ArrowLeft":
+      case 'ArrowLeft':
         console.log('key: ArrowLeft');
         if (hostedTab) {
           hostedTab.click();
         }
         break;
-      case "ArrowRight":
+      case 'ArrowRight':
         console.log('key: ArrowRight');
         if (packageTab) {
           packageTab.click();
@@ -132,8 +187,4 @@
         return
     }
   });
-
-  //
-  // Navigations
-  //
 })();
