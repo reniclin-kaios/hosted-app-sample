@@ -1,36 +1,21 @@
 {
-  "version": "1",
+  "version": "0.0.1",
   "name": "hosted app sample",
-  "launch_path": "/hosted-app-sample/index.html",
   "description": "Hosted app sample",
+  "type": "web",
+  "launch_path": "/hosted-app-sample/index.html",
   "icons": {
-    "16": "/hosted-app-sample/images/logo16.png",
-    "32": "/hosted-app-sample/images/logo32.png",
-    "48": "/hosted-app-sample/images/logo48.png",
-    "60": "/hosted-app-sample/images/logo60.png",
-    "64": "/hosted-app-sample/images/logo64.png",
-    "90": "/hosted-app-sample/images/logo90.png",
-    "120": "/hosted-app-sample/images/logo120.png",
-    "128": "/hosted-app-sample/images/logo128.png"
+    "56": "/assets/icons/kaios_56.png",
+    "112": "/assets/icons/kaios_112.png"
   },
   "developer": {
     "name": "Renic Lin",
-    "url": ""
+    "url": "https://github.com/reniclin-kaios/hosted-app-sample"
   },
   "installs_allowed_from": [
     "*"
   ],
-  "default_locale": "en",
+  "default_locale": "en-US",
   "permissions": {
-    "desktop-notification": {
-      "description": "To show notifications"
-    },
-    "geolocation": {
-      "description": "Marking out user location"
-    },
-    "alarms": {
-      "description": "Scheduling alarms"
-    }
-  },
-  "cursor": true
+  }
 }
