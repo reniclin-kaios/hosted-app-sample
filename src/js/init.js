@@ -15,8 +15,6 @@
 
   if (hostedTab) {
     hostedTab.onclick = function (event) {
-      console.log('hostedTab click');
-
       currentPage = 'hostedPage'
       hostedTab.className = 'active';
       if (packageTab) {
@@ -43,8 +41,6 @@
 
   if (packageTab) {
     packageTab.onclick = function (event) {
-      console.log('packageTab click');
-
       currentPage = 'packagePage'
       packageTab.className = 'active';
       if (hostedTab) {
@@ -104,50 +100,53 @@
   // start a activity!
   //
   function startActivity() {
-    console.log('startActivity');
-
     let manifestURL = currentPage === 'hostedPage' ? 'https://skfaizrahaman.github.io/FRRacing/manifest.webapp' : 'https://api.stage.kaiostech.com/apps/manifest/oRD8oeYmeYg4fLIwkQPH';
-    let appName = currentPage === 'hostedPage' ? 'fracing' : 'Facebook';
-    let activityName = (function () {
+    let appName = currentPage === 'hostedPage' ? 'fracing' : 'facebook';
+    let currentButton = (function () {
       if (currentPage === 'hostedPage' && hostedActivities && typeof hostedActivities.length === 'number' && hostedActivities.length > 0) {
-        return hostedActivities[hostedIdx].textContent;
+        return hostedActivities[hostedIdx];
       } else if (currentPage === 'packagePage' && packageActivities && typeof packageActivities.length === 'number' && packageActivities.length > 0) {
-        return packageActivities[packageIdx].textContent;
+        return packageActivities[packageIdx];
       }
       return null;
     })();
-    console.log('manifestURL: ' + manifestURL);
-    console.log('appName: ' + appName);
-    console.log('activityName: ' + activityName);
+    let activityName = currentButton && currentButton.textContent ? currentButton.textContent : null;
+
+    console.log(activityName);
+    console.log(manifestURL);
+    console.log(appName);
 
     if (activityName) {
-      let activity = (function () {
-        if (activityName.indexOf('deeplink') !== -1 ||
-          activityName.indexOf('page') !== -1) {
-          return new MozActivity({
-            name: activityName,
-            data: {
-              type: 'url',
-              url: manifestURL
-            }
-          });
-        } else {
-          return new MozActivity({
-            name: activityName,
-            data: {
-              type: 'name',
-              name: appName
-            }
-          });
+      if (activityName.indexOf('link') !== -1) {
+        // deeplink
+      } else {
+        let activity = (function () {
+          if (activityName.indexOf('page') !== -1) {
+            return new MozActivity({
+              name: activityName,
+              data: {
+                type: 'url',
+                url: manifestURL
+              }
+            });
+          } else if (activityName.indexOf('name') !== -1) {
+            return new MozActivity({
+              name: activityName,
+              data: {
+                type: 'name',
+                name: appName
+              }
+            });
+          }
+        })();
+
+        activity.onsuccess = function () {
+          console.log('Activity successfuly handled: ' + this.result);
         }
-      })();
 
-      activity.onsuccess = function () {
-        console.log('Activity successfuly handled: ' + this.result);
-      }
-
-      activity.onerror = function () {
-        console.log('The activity encouter en error: ' + this.error);
+        activity.onerror = function () {
+          console.log('The activity encouter en error: ' + this.error);
+        }
       }
     }
   }
