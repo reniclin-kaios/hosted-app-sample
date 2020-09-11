@@ -17,6 +17,7 @@
     hostedTab.onclick = function (event) {
       currentPage = 'hostedPage'
       hostedTab.className = 'active';
+
       if (packageTab) {
         packageTab.className = '';
       }
@@ -24,6 +25,7 @@
       if (packagePage) {
         packagePage.style.display = 'none';
       }
+
       if (hostedPage) {
         hostedPage.style.display = 'block';
       }
@@ -43,6 +45,7 @@
     packageTab.onclick = function (event) {
       currentPage = 'packagePage'
       packageTab.className = 'active';
+
       if (hostedTab) {
         hostedTab.className = '';
       }
@@ -50,6 +53,7 @@
       if (hostedPage) {
         hostedPage.style.display = 'none';
       }
+
       if (packagePage) {
         packagePage.style.display = 'block';
       }
